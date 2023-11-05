@@ -73,6 +73,7 @@ func HomeDir() string {
 var ClientSet = &Client{}
 
 type Client struct {
+	RestConfig      *rest.Config
 	Client          kubernetes.Interface // 因为需要单元测试，所以不要用 *kubernetes.Clientset
 	DynamicClient   dynamic.Interface
 	DiscoveryClient discovery.DiscoveryInterface
@@ -80,6 +81,7 @@ type Client struct {
 
 func init() {
 	config := K8sRestConfig()
+	ClientSet.RestConfig = config
 	ClientSet.Client = InitClient(config)
 	ClientSet.DynamicClient = InitDynamicClient(config)
 	ClientSet.DiscoveryClient = InitClient(config).Discovery()
